@@ -5,19 +5,22 @@ import { TiLocationArrow } from "react-icons/ti";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import dynamic from "next/dynamic.js";
+import { ScrollTrigger } from "gsap/all";
 
 const VideoComponent = dynamic(() => import("./VideoComponent.jsx"), { ssr: false });
+gsap.registerPlugin(ScrollTrigger)
 
 const Hero = () => {
+
   const [currentindex, setCurrentIndex] = useState(1);
   const [hasClicked, setHasClicked] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loadedVideos, setLoadedVideos] = useState(0);
 
   const totalVideos = 4;
-  const nextVideoRef = useRef(null);
+  const nextVideoRef = useRef();
 
-  const upComingVideoIndex = (currentindex % totalVideos) + 1;
+  const upComingVideoIndex =(currentindex % totalVideos) + 1;
 
   const handleMiniVdClick = () => {
     setHasClicked(true);
@@ -25,15 +28,14 @@ const Hero = () => {
   };
 
   const handleVideoLoad = () => {
-    setLoadedVideos((prev) => prev + 1);
-    console.log("loaded");
+    setLoadedVideos(loadedVideos + 1);
   };
 
   useGSAP(() => {
     if (nextVideoRef.current) {
       gsap.set("#next-video", { visibility: "visible" });
       gsap.to("#next-video", {
-        transformOrigin: "center center",
+        transformOrigin: "",
         scale: 1,
         width: "100%",
         height: "100%",
@@ -44,7 +46,7 @@ const Hero = () => {
     }
     gsap.from("#current-video", {
       transformOrigin: "center center",
-      scale: "0",
+      scale: 0,
       duration: 1.5,
       ease: "power1.inOut",
     });
@@ -71,10 +73,8 @@ const Hero = () => {
   const getVideoSrc = (index) => `videos/hero-${index}.mp4`;
 
   useEffect(() => {
-    console.log("heelo1");
-    if (loadedVideos === totalVideos) {
+    if (loadedVideos === 2) {
       setLoading(false);
-      console.log("hello");
     }
   }, [loadedVideos]);
 

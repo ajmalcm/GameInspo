@@ -1,29 +1,32 @@
-"use client"
-import React, { useEffect, useRef } from "react";
+"use client";
+import React, { useEffect } from "react";
 
-const VideoComponent = ({ nextRef, src, id = "", style = "", loadHandler }) => {
-  const internalRef = useRef(null);
-
+const VideoComponent = ({ nextRef, src, id, style, loadHandler }) => {
   useEffect(() => {
-    const videoRef = nextRef || internalRef;
-    console.log(`VideoComponent Mounted - ID: ${id}`, videoRef.current);
-  }, [nextRef]);
+    console.log(`Mounted video: ${id} (${src})`);
+  }, []);
 
-  const handleLoadedData = () => {
-    console.log(`Video Loaded - ID: ${id}`);
+  const handleCanPlayThrough = () => {
+    console.log(`Ready to play: ${id}`);
     loadHandler();
+  };
+
+  const handleError = (e) => {
+    console.error(`Error in ${id}:`, e);
   };
 
   return (
     <video
-      ref={nextRef || internalRef}
+      ref={nextRef}
       src={src}
       loop
       muted
       id={id}
       className={style}
-      onLoadedData={handleLoadedData}
+      onLoadedData={handleCanPlayThrough}
+      onError={handleError}
       playsInline
+      preload="auto"
     />
   );
 };
