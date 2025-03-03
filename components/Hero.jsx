@@ -7,6 +7,8 @@ import gsap from "gsap";
 import dynamic from "next/dynamic.js";
 import { ScrollTrigger } from "gsap/all";
 
+
+
 const VideoComponent = dynamic(() => import("./VideoComponent.jsx"), { ssr: false });
 gsap.registerPlugin(ScrollTrigger)
 
