@@ -5,7 +5,7 @@ import React, { useEffect, useRef } from 'react'
 
 gsap.registerPlugin(ScrollTrigger);
 
-const AnimatedTitle = ({title,containerClass}) => {
+const AnimatedTitle = ({title,containerClass,color}) => {
     
     const containerRef=useRef(null)
 
@@ -38,7 +38,7 @@ const AnimatedTitle = ({title,containerClass}) => {
         <div key={index} className='flex-center max-w-full flex-wrap gap-2 px-10 md:gap-3 '>
             {
                 line.split(" ").map((word,i)=>(
-                        <span key={i} className='animated-word' dangerouslySetInnerHTML={{__html:word}}/>
+                        <span key={i} className={`animated-word ${color}`} dangerouslySetInnerHTML={{__html:word}}/>
                 ))
             }
         </div>

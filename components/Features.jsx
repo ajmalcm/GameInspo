@@ -112,7 +112,15 @@ const BentoTilt=({children,className=""})=>{
     const {left,right,width,height}=itemRef.current.getBoundingClientRect();
 
     const relativeX=(e.clientX - left) / width;
-    const relativeY=(e.clientY - right) / height    
+    const relativeY=(e.clientY - right) / height;
+    
+    const tiltX=(relativeX - 0.5) * 5;
+    const tiltY=(relativeY -0.5) * -5;
+
+    const newTransform=`perspective(700px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(0.98, 0.98, 0.98)`;
+
+    setTransformStyle(newTransform)
+
   }
 
   const handleMouseLeave=()=>{
@@ -121,7 +129,7 @@ const BentoTilt=({children,className=""})=>{
   }
 
   return(
-  <div className={`${className} `} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} ref={itemRef}>
+  <div className={`${className} duration-100`} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} ref={itemRef} style={{transform:transformStyle}}>
 {children}
   </div>
   )
